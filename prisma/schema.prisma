@@ -7,16 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // == MODELAGEM DOS DADOS ==
 
-// Eventos
+// Definição do modelo Categorias
+model Categorias {
+  id     String    @id @default(uuid())
+  nome   String
+  evento Eventos[]
 
+  @@map("categorias")
+}
 
+// Definição do modelo Locais
+model Locais {
+  id       String    @id @default(uuid())
+  nome     String
+  endereco String
+  cidade   String
+  estado   String
+  pais     String
+  evento   Eventos[]
 
-// Categorias
+  @@map("locais")
+}
 
+// Definição do modelo Eventos
+model Eventos {
+  id           String     @id @default(uuid())
+  nome         String
+  data_criacao DateTime   @default(now())
+  data         DateTime
+  descricao    String
+  categoria_id String
+  local_id     String
+  categoria    Categorias @relation(fields: [categoria_id], references: [id])
+  local        Locais     @relation(fields: [local_id], references: [id])
 
-
-// Locais
-
+  @@map("eventos")
+}
