@@ -139,7 +139,7 @@ export class EventCrontroller {
                 return res.status(204).send();
             };
 
-            res.status(500).json({ "message": "Evento não localizado!" });
+            res.status(404).json({ "message": "Evento não localizado!" });
 
         } catch (error) {
             console.log(error.message);
