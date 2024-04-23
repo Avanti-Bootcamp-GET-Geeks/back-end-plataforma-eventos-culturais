@@ -2,6 +2,7 @@
 import express from 'express';
 
 // Arquivos de rotas
+import { eventRoutes } from './src/routes/eventRoutes.js';
 
 const app = express(); // Define que a aplicação usará o express
 app.use(express.json()); // Seta middleware no express para reconhecimento/análise de JSON nas requisições HTTP
@@ -16,6 +17,8 @@ app.get('/', (req, res) => {
 			message: 'Olá! Seja bem vindo(a) à Plataforma de Gerenciamento de Eventos Culturais.',
 		});
 });
+
+app.use(eventRoutes); // Rotas de eventos
 
 // Inicia servidor na porta especificada
 app.listen(PORT, () => {
