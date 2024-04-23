@@ -1,1 +1,1 @@
-import { prismaClient } from "../database/PrismaClient.js";
+import { prismaClient } from '../database/PrismaClient.js';
