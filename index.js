@@ -2,7 +2,7 @@
 import express from "express"; 
 
 // Arquivos de rotas
-
+import { eventRoutes } from "./src/routes/eventRoutes.js"
 
 
 
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 
-
+app.use(eventRoutes); // Rotas de eventos
 
 
 // Inicia servidor na porta especificada
