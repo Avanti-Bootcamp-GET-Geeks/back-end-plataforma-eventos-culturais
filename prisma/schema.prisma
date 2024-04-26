@@ -36,12 +36,39 @@ model Eventos {
   id           String     @id @default(uuid())
   nome         String
   data_criacao DateTime   @default(now())
-  data         DateTime
+  data_inicio  DateTime
+  data_fim     DateTime
   descricao    String
+  usuario_id   String
   categoria_id String
   local_id     String
+  usuario      Usuarios   @relation(fields: [usuario_id], references: [id])
   categoria    Categorias @relation(fields: [categoria_id], references: [id])
   local        Locais     @relation(fields: [local_id], references: [id])
 
   @@map("eventos")
+}
+
+// Definição do modelo Cargos dos usuários
+model Cargos {
+  id      String     @id @default(uuid())
+  nome    String
+  usuario Usuarios[]
+
+  @@map("cargos")
+}
+
+// Definição do modelo Usuários
+model Usuarios {
+  id           String    @id @default(uuid())
+  nome         String
+  email        String    @unique
+  telefone     String
+  senha        String
+  data_criacao DateTime  @default(now())
+  cargo_id     String
+  cargo        Cargos    @relation(fields: [cargo_id], references: [id])
+  evento       Eventos[]
+
+  @@map("usuarios")
 }
