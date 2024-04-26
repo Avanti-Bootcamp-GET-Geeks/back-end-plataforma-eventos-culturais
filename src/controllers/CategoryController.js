@@ -58,11 +58,25 @@ export class CategoryController {
 	async deleteCategory(req, res) {
 		const { id } = req.params;
 		try {
+			// Verifica se há eventos associados a esta categoria
+			const eventos = await prismaClient.eventos.findMany({
+				where: { categoria_id: id },
+			});
+
+			// Se houver eventos associados, retorna a mensagem de erro
+			if (eventos.length > 0) {
+				return res
+					.status(400)
+					.json({ error: 'Esta categoria está associada a eventos e não pode ser excluída.' });
+			}
+
+			// Se não houver eventos associados, exclui a categoria
 			await prismaClient.categorias.delete({ where: { id } });
-			res.status(204).send();
+
+			return res.status(204).send();
 		} catch (error) {
 			console.error(error);
-			res.status(500).json({ error: 'Erro ao excluir categoria.' });
+			return res.status(500).json({ error: 'Erro ao excluir categoria.' });
 		}
 	}
 }
