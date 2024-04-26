@@ -72,7 +72,6 @@ export class EventCrontroller {
 			return res.status(500).send();
 		}
 	}
-
 	async createEvent(req, res) {
 		const { nome, data, descricao, categoria_id, local_id } = req.body;
 
