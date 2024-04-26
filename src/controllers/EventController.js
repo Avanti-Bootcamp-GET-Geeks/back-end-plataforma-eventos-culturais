@@ -76,11 +76,8 @@ export class EventCrontroller {
 		const { nome, data, descricao, categoria_id, local_id } = req.body;
 
 		try {
-			// Converte a string da data para um objeto de data JavaScript
-			const dataFormatada = new Date(data);
-
 			const event = await prismaClient.eventos.create({
-				data: { nome, data: dataFormatada, descricao, categoria_id, local_id },
+				data: { nome, data, descricao, categoria_id, local_id },
 			});
 
 			return res.status(201).json(event);
