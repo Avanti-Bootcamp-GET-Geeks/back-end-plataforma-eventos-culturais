@@ -1,11 +1,9 @@
 import { prismaClient } from '../database/PrismaClient.js';
 
-const findEventById = async (id) =>
-	await prismaClient.eventos.findUnique({
-		where: { id },
-	});
+const findEventById = async (id) =>	await prismaClient.eventos.findUnique({	where: { id }});
 
 export class EventCrontroller {
+
 	async findAllEvents(req, res) {
 		const { categoria_id, local_id, data } = req.query;
 
@@ -14,29 +12,24 @@ export class EventCrontroller {
 				where: {
 					...(categoria_id && { categoria_id }),
 					...(local_id && { local_id }),
-					...(data && { data }),
+					...(data && { data_inicio: data })
 				},
-				orderBy: { data: 'asc' },
+				orderBy: { data_inicio: 'asc' }
 			});
-
+			
 			// Verifica se algum filtro foi aplicado e se há retorno
-			const isFilteredSearch =
+			const isFilteredSearch = 
 				categoria_id !== undefined || local_id !== undefined || data !== undefined;
 
-			if (events.length > 0) {
-				res.status(200).json(events);
-			} else {
-				if (isFilteredSearch) {
-					res.status(404).json({ message: 'Nenhum evento localizado!' });
-				} else {
-					res.status(404).json({ message: 'Não há eventos disponíveis!' });
-				}
-			}
+			if (isFilteredSearch) 
+				return res.status(404).json({ message: 'Nenhum evento localizado!' });
+			
+			res.status(200).json(events);
 		} catch (error) {
 			console.log(error.message);
-			return res.status(500).send();
+			return res.status(500).json({error: 'Erro ao listar eventos.'});
 		}
-	}
+	};
 
 	async findEventById(req, res) {
 		const { id } = req.params;
@@ -69,27 +62,28 @@ export class EventCrontroller {
 			res.status(404).json({ message: 'Evento não localizado!' });
 		} catch (error) {
 			console.log(error.message);
-			return res.status(500).send();
+			return res.status(500).json({error: 'Erro ao buscar evento.'});
 		}
-	}
+	};
+
 	async createEvent(req, res) {
-		const { nome, data, descricao, categoria_id, local_id } = req.body;
+		const { imagem, nome, data_inicio, data_fim, descricao, categoria_id, local_id, usuario_id } = req.body;
 
 		try {
 			const event = await prismaClient.eventos.create({
-				data: { nome, data, descricao, categoria_id, local_id },
+				data: { imagem, nome, data_inicio, data_fim, descricao, categoria_id, local_id, usuario_id }
 			});
 
 			return res.status(201).json(event);
 		} catch (error) {
 			console.log(error.message);
-			return res.status(500).send();
+			return res.status(500).json({error: 'Erro ao cadastrar evento.'});
 		}
 	}
 
 	async updateEvent(req, res) {
 		const { id } = req.params;
-		const { nome, data, descricao, categoria_id, local_id } = req.body;
+		const { imagem, nome, data_inicio, data_fim, descricao, categoria_id, local_id, usuario_id } = req.body;
 
 		try {
 			const eventFound = await findEventById(id);
@@ -99,16 +93,16 @@ export class EventCrontroller {
 					where: {
 						id,
 					},
-					data: { nome, data, descricao, categoria_id, local_id },
+					data: { imagem, nome, data_inicio, data_fim, descricao, categoria_id, local_id, usuario_id }
 				});
 
 				return res.status(200).json(event);
 			}
 
-			res.status(500).json({ message: 'Evento não localizado!' });
+			res.status(404).json({ message: 'Evento não localizado!' });
 		} catch (error) {
 			console.log(error.message);
-			return res.status(500).send();
+			return res.status(500).json({error: 'Erro ao atualizar evento.'});
 		}
 	}
 
@@ -129,7 +123,7 @@ export class EventCrontroller {
 			res.status(404).json({ message: 'Evento não localizado!' });
 		} catch (error) {
 			console.log(error.message);
-			return res.status(500).send();
+			return res.status(500).json({error: 'Erro ao excluir eventos.'});
 		}
-	}
+	};
 }
