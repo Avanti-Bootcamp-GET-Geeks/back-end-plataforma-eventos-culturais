@@ -72,4 +72,41 @@ export class Validation {
      };
 
 
+     // Validação - Usuários
+     valitadeUserData(req, res, next) {
+        const { nome, email, telefone, senha, cargo_id } = req.body;
+        
+        const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+        
+        const emptyFields = [];
+
+        if (!nome)
+            emptyFields.push('nome');
+
+        if (!email)
+            emptyFields.push('email');
+
+        if (!telefone)
+            emptyFields.push('telefone');
+
+        if (!senha)
+            emptyFields.push('senha');
+
+
+        if (!cargo_id.match(uuidRegex))
+            return res.status(400).json({ "error": "ID do campo 'cargo_id' inválido!" })
+
+
+        if (emptyFields.length == 0) {
+            return next();
+        } else {
+            if (emptyFields.length > 1) {
+                return res.status(400).json({ "message": `Os campos ${emptyFields.join(', ')} são obrigatórios!` });
+            } else {
+                return res.status(400).json({ "message": `O campo ${emptyFields} é obrigatório!` });
+            }
+        };
+
+    };
+
 };
