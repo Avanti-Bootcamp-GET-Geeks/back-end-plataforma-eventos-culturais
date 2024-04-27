@@ -5,6 +5,7 @@ import express from 'express';
 import { eventRoutes } from './src/routes/eventRoutes.js';
 import { categoryRoutes } from './src/routes/categoryRoutes.js';
 import { localRoutes } from './src/routes/localRoutes.js';
+import { roleRoutes } from './src/routes/roleRoutes.js';
 
 const app = express(); // Define que a aplicação usará o express
 app.use(express.json()); // Seta middleware no express para reconhecimento/análise de JSON nas requisições HTTP
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 app.use(eventRoutes); // Rotas de eventos
 app.use(categoryRoutes); // Rotas de categorias
 app.use(localRoutes); // Rotas de locais
+app.use(roleRoutes); // Rotas de cargos
 
 // Inicia servidor na porta especificada
 app.listen(PORT, () => {
