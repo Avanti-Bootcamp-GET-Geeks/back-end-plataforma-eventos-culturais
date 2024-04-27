@@ -5,15 +5,16 @@ export class Validation {
         const { id } = req.params;
 
         // erro para ausência de valor
-        if (!id)
+        if(!id)
             return res.status(400).json({ "message": "Parâmetro 'id' não informado!" })
 
         const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
         // Erro para id incorreto (estrutura UUID)
-        if (!id.match(uuidRegex))
-            res.status(400).json({ "message": "Parâmetro 'id' inválido!" })
+        if (!id.match(uuidRegex)) 
+            return res.status(400).json({ "message": "Parâmetro 'id' inválido!" })
+        
 
-        next();
+       return next();
     };
 
 
@@ -58,6 +59,17 @@ export class Validation {
         };
 
     };
+
+
+     // Validação de dados - Cargos
+     valitadeRoleData(req, res, next) {
+        
+        if(!req.body.nome) {
+            return res.status(400).json({error: "O campo 'nome' é obrigatório!"});
+        };
+
+        next();
+     };
 
 
 };
