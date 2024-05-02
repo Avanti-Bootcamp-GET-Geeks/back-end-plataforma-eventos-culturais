@@ -1,5 +1,8 @@
 // Importações
 import express from 'express';
+//imports para documentação 
+import swaggerUi from "swagger-ui-express"
+import swaggerDocs  from "./swagger.json" assert { type: "json" }
 
 // Arquivos de rotas
 import { eventRoutes } from './src/routes/eventRoutes.js';
@@ -10,6 +13,8 @@ import { userRoutes } from './src/routes/userRoutes.js';
 
 const app = express(); // Define que a aplicação usará o express
 app.use(express.json()); // Seta middleware no express para reconhecimento/análise de JSON nas requisições HTTP
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))//Seta middleware para o acesso a documentação e o arquivo que contem a mesma
 
 const PORT = 3000; // Porta onde a aplicação será executada
 
