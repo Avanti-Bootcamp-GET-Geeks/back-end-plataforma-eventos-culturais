@@ -1,43 +1,43 @@
 import { prismaClient } from '../database/PrismaClient.js';
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 
-const findUserByEmail = async (email) => await prismaClient.usuarios.findFirst({ where: { email: email } });
+const findUserByEmail = async (email) =>
+	await prismaClient.usuarios.findFirst({ where: { email: email } });
 
 export class UserController {
-
 	async findAllUsers(req, res) {
 		const { roleId } = req.query;
 
 		try {
-			let users = roleId ? await prismaClient.usuarios.findMany({
-				where: {
-					cargo_id: roleId
-				},
-				select: {
-					id: true,
-					nome: true,
-					email: true,
-					telefone: true,
-					cargo_id: true
-				}
-			}) : await prismaClient.usuarios.findMany({
-				select: {
-					id: true,
-					nome: true,
-					email: true,
-					telefone: true,
-					cargo_id: true
-				}
-			});
+			let users = roleId
+				? await prismaClient.usuarios.findMany({
+						where: {
+							cargo_id: roleId,
+						},
+						select: {
+							id: true,
+							nome: true,
+							email: true,
+							telefone: true,
+							cargo_id: true,
+						},
+				  })
+				: await prismaClient.usuarios.findMany({
+						select: {
+							id: true,
+							nome: true,
+							email: true,
+							telefone: true,
+							cargo_id: true,
+						},
+				  });
 
 			res.status(200).json(users);
-
 		} catch (error) {
 			console.log(error.message);
 			return res.status(500).json({ error: 'Erro ao listar usuários.' });
 		}
-	};
-
+	}
 
 	async findUserById(req, res) {
 		const { id } = req.params;
@@ -47,8 +47,8 @@ export class UserController {
 				where: { id },
 				include: {
 					cargo: true,
-					evento: true
-				}
+					evento: true,
+				},
 			});
 
 			if (user !== null) {
@@ -60,18 +60,18 @@ export class UserController {
 					telefone: user.telefone,
 					cargo: user.cargo,
 					eventos: user.evento,
-					data_criacao: user.data_criacao
+					data_criacao: user.data_criacao,
 				};
 
 				return res.status(200).json(formattedUser);
-			};
+			}
 
 			res.status(404).json({ message: 'Usuário não localizado!' });
 		} catch (error) {
 			console.log(error.message);
 			return res.status(500).json({ error: 'Erro ao buscar usuário.' });
 		}
-	};
+	}
 
 	async createUser(req, res) {
 		const { nome, email, telefone, senha, cargo_id } = req.body;
@@ -79,8 +79,7 @@ export class UserController {
 		try {
 			const userFound = await findUserByEmail(email);
 
-			if (userFound)
-				return res.status(409).json({ message: "E-mail já cadastrado!" });
+			if (userFound) return res.status(409).json({ message: 'E-mail já cadastrado!' });
 
 			// Criptografa a senha antes de mandar para o banco
 			const hashPass = bcrypt.hashSync(senha, 10);
@@ -92,8 +91,8 @@ export class UserController {
 					nome: true,
 					email: true,
 					telefone: true,
-					cargo_id: true
-				}
+					cargo_id: true,
+				},
 			});
 
 			return res.status(201).json(user);
@@ -101,8 +100,7 @@ export class UserController {
 			console.log(error.message);
 			return res.status(500).json({ error: 'Erro ao cadastrar usuário. Tente novamente!' });
 		}
-	};
-
+	}
 
 	async updateUser(req, res) {
 		const { id } = req.params;
@@ -117,7 +115,7 @@ export class UserController {
 
 				const user = await prismaClient.usuarios.update({
 					where: {
-						id
+						id,
 					},
 					data: { nome, email, telefone, senha: hashPass, cargo_id },
 					select: {
@@ -125,8 +123,8 @@ export class UserController {
 						nome: true,
 						email: true,
 						telefone: true,
-						cargo_id: true
-					}
+						cargo_id: true,
+					},
 				});
 
 				return res.status(200).json(user);
@@ -136,14 +134,14 @@ export class UserController {
 		} catch (error) {
 			console.log(error.message);
 			return res.status(500).json({ error: 'Erro ao atualizar usuário.' });
-		};
-	};
+		}
+	}
 
 	async deleteUser(req, res) {
 		const { id } = req.params;
 
 		try {
-			const userFound = await prismaClient.usuarios.findUnique({where: { id }});
+			const userFound = await prismaClient.usuarios.findUnique({ where: { id } });
 
 			if (userFound !== null) {
 				await prismaClient.usuarios.delete({
@@ -158,6 +156,5 @@ export class UserController {
 			console.log(error.message);
 			return res.status(500).json({ error: 'Erro ao excluir usuário.' });
 		}
-	};
-
-};
+	}
+}
