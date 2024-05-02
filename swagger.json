@@ -48,67 +48,6 @@
                 }
             }
         },
-        "/category": {
-            "post": {
-                "summary": "Criar categoria",
-                "tags": [
-                    "Categorias"
-                ],
-                "requestBody": {
-                    "description": "Dados necessários para cadastro de uma categoria",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CriarCategoria"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Categoria"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/category/{id}": {
             "get": {
                 "summary": "Buscar categoria por ID",
@@ -143,7 +82,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "error": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -158,7 +97,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string"
                                         }
                                     }
@@ -189,7 +128,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AtualizarCategoria"
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Novo nome da categoria"
+                                    }
+                                }
                             }
                         }
                     }
@@ -212,7 +156,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "error": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -289,6 +233,71 @@
                 }
             }
         },
+        "/category": {
+            "post": {
+                "summary": "Criar categoria",
+                "tags": [
+                    "Categorias"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastro de uma categoria",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Categoria"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/events": {
             "get": {
                 "summary": "Buscar todos os eventos",
@@ -317,9 +326,9 @@
                         "name": "data",
                         "schema": {
                             "type": "string",
-                            "format": "date"
+                            "format": "date-time"
                         },
-                        "description": "Data do evento (no formato YYYY-MM-DD)"
+                        "description": "DateTime (YYYY-MM-DDTHH:MM:SSZ)"
                     }
                 ],
                 "responses": {
@@ -451,7 +460,43 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AtualizarEvento"
+                                "type": "object",
+                                "properties": {
+                                    "imagem": {
+                                        "type": "string",
+                                        "description": "URL da imagem do evento"
+                                    },
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Novo nome do evento"
+                                    },
+                                    "data_inicio": {
+                                        "type": "dateTime",
+                                        "format": "date-time",
+                                        "description": "Nova data de início do evento (no formato YYYY-MM-DD)"
+                                    },
+                                    "data_fim": {
+                                        "type": "dateTime",
+                                        "format": "date-time",
+                                        "description": "Nova data de fim do evento (no formato YYYY-MM-DD)"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "description": "Nova descrição do evento"
+                                    },
+                                    "categoria_id": {
+                                        "type": "string",
+                                        "description": "Novo ID da categoria do evento"
+                                    },
+                                    "local_id": {
+                                        "type": "string",
+                                        "description": "Novo ID do local do evento"
+                                    },
+                                    "usuario_id": {
+                                        "type": "string",
+                                        "description": "Novo ID do usuário responsável pelo evento"
+                                    }
+                                }
                             }
                         }
                     }
@@ -564,7 +609,43 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CriarEvento"
+                                "type": "object",
+                                "properties": {
+                                    "imagem": {
+                                        "type": "string",
+                                        "description": "URL da imagem do evento"
+                                    },
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Nome do evento"
+                                    },
+                                    "data_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Data de início do evento (no formato YYYY-MM-DD)"
+                                    },
+                                    "data_fim": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Data de fim do evento (no formato YYYY-MM-DD)"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "description": "Descrição do evento"
+                                    },
+                                    "categoria_id": {
+                                        "type": "string",
+                                        "description": "ID da categoria do evento"
+                                    },
+                                    "local_id": {
+                                        "type": "string",
+                                        "description": "ID do local do evento"
+                                    },
+                                    "usuario_id": {
+                                        "type": "string",
+                                        "description": "ID do usuário responsável pelo evento"
+                                    }
+                                }
                             }
                         }
                     }
@@ -671,7 +752,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "error": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -718,7 +799,29 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AtualizarLocal"
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Novo nome do local"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "description": "Novo endereço do local"
+                                    },
+                                    "cidade": {
+                                        "type": "string",
+                                        "description": "Nova cidade do local"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "description": "Novo estado do local"
+                                    },
+                                    "pais": {
+                                        "type": "string",
+                                        "description": "Novo país do local"
+                                    }
+                                }
                             }
                         }
                     }
@@ -741,7 +844,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "error": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -793,7 +896,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "error": {
+                                        "message": {
                                             "type": "string"
                                         }
                                     }
@@ -831,7 +934,29 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CriarLocal"
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Nome do local"
+                                    },
+                                    "endereco": {
+                                        "type": "string",
+                                        "description": "Endereço do local"
+                                    },
+                                    "cidade": {
+                                        "type": "string",
+                                        "description": "Cidade do local"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "description": "Estado do local"
+                                    },
+                                    "pais": {
+                                        "type": "string",
+                                        "description": "País do local"
+                                    }
+                                }
                             }
                         }
                     }
@@ -865,444 +990,615 @@
                 }
             }
         },
-        
-      "/users": {
-        "get": {
-          "summary": "Buscar todos os usuários",
-          "tags": ["Usuários"],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "roleId",
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do cargo do usuário"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Usuario"
+        "/users": {
+            "get": {
+                "summary": "Buscar todos os usuários",
+                "tags": [
+                    "Usuários"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "roleId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do cargo do usuário"
                     }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
             }
-          }
-        }
-      },
-      "/user/{id}": {
-        "get": {
-          "summary": "Buscar usuário por ID",
-          "tags": ["Usuários"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do usuário"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         },
-        "put": {
-          "summary": "Atualizar usuário",
-          "tags": ["Usuários"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do usuário"
-            }
-          ],
-          "requestBody": {
-            "description": "Dados necessários para atualizar um usuário",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AtualizarUsuario"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+        "/user/{id}": {
+            "get": {
+                "summary": "Buscar usuário por ID",
+                "tags": [
+                    "Usuários"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do usuário"
                     }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
+            },
+            "put": {
+                "summary": "Atualizar usuário",
+                "tags": [
+                    "Usuários"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do usuário"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para atualizar um usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Novo nome do usuário"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "Novo e-mail do usuário"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "description": "Novo telefone do usuário"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "description": "Nova senha do usuário"
+                                    },
+                                    "cargo_id": {
+                                        "type": "string",
+                                        "description": "Novo ID do cargo do usuário"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Excluir usuário",
+                "tags": [
+                    "Usuários"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do usuário"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
         },
-        "delete": {
-          "summary": "Excluir usuário",
-          "tags": ["Usuários"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do usuário"
+        "/user": {
+            "post": {
+                "summary": "Criar usuário",
+                "tags": [
+                    "Usuários"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para criar um usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Nome do usuário"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "E-mail do usuário"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "description": "Telefone do usuário"
+                                    },
+                                    "cargo_id": {
+                                        "type": "string",
+                                        "description": "ID do cargo do usuário"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      
-      "/roles": {
-        "get": {
-          "summary": "Buscar todos os cargos",
-          "tags": ["Cargos"],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Cargo"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/role/{id}": {
-        "get": {
-          "summary": "Buscar cargo por ID",
-          "tags": ["Cargos"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do cargo"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Cargo"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         },
-        "put": {
-          "summary": "Atualizar cargo",
-          "tags": ["Cargos"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do cargo"
-            }
-          ],
-          "requestBody": {
-            "description": "Dados necessários para atualizar um cargo",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AtualizarCargo"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Cargo"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+        "/roles": {
+            "get": {
+                "summary": "Buscar todos os cargos",
+                "tags": [
+                    "Cargos"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cargo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
             }
-          }
         },
-        "delete": {
-          "summary": "Excluir cargo",
-          "tags": ["Cargos"],
-          "parameters": [
-            {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "ID do cargo"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "No Content"
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+        "/role/{id}": {
+            "get": {
+                "summary": "Buscar cargo por ID",
+                "tags": [
+                    "Cargos"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do cargo"
                     }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "error": {
-                        "type": "string"
-                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cargo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
+            },
+            "put": {
+                "summary": "Atualizar cargo",
+                "tags": [
+                    "Cargos"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do cargo"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para atualizar um cargo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "description": "Novo nome do cargo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cargo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Excluir cargo",
+                "tags": [
+                    "Cargos"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID do cargo"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
+        },
+        "/role": {
+            "post": {
+                "summary": "Criar cargo",
+                "tags": [
+                    "Cargos"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para criar um cargo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cargo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
     },
     "components": {
         "schemas": {
@@ -1316,25 +1612,15 @@
                     "nome": {
                         "type": "string",
                         "description": "Nome da categoria"
+                    },
+                    "eventos": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Evento"
+                        }
                     }
-                }
-            },
-            "CriarCategoria": {
-                "type": "object",
-                "properties": {
-                    "nome": {
-                        "type": "string",
-                        "description": "Nome da categoria a ser criada"
-                    }
-                }
-            },
-            "AtualizarCategoria": {
-                "type": "object",
-                "properties": {
-                    "nome": {
-                        "type": "string",
-                        "description": "Novo nome da categoria"
-                    }
+
                 }
             },
             "Evento": {
@@ -1354,12 +1640,12 @@
                     },
                     "data_inicio": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Data de início do evento (no formato YYYY-MM-DD)"
                     },
                     "data_fim": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "description": "Data de fim do evento (no formato YYYY-MM-DD)"
                     },
                     "descricao": {
@@ -1382,84 +1668,6 @@
                         "type": "string",
                         "format": "date-time",
                         "description": "Data e hora de criação do evento (no formato ISO 8601)"
-                    }
-                }
-            },
-            "CriarEvento": {
-                "type": "object",
-                "properties": {
-                    "imagem": {
-                        "type": "string",
-                        "description": "URL da imagem do evento"
-                    },
-                    "nome": {
-                        "type": "string",
-                        "description": "Nome do evento"
-                    },
-                    "data_inicio": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Data de início do evento (no formato YYYY-MM-DD)"
-                    },
-                    "data_fim": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Data de fim do evento (no formato YYYY-MM-DD)"
-                    },
-                    "descricao": {
-                        "type": "string",
-                        "description": "Descrição do evento"
-                    },
-                    "categoria_id": {
-                        "type": "string",
-                        "description": "ID da categoria do evento"
-                    },
-                    "local_id": {
-                        "type": "string",
-                        "description": "ID do local do evento"
-                    },
-                    "usuario_id": {
-                        "type": "string",
-                        "description": "ID do usuário responsável pelo evento"
-                    }
-                }
-            },
-            "AtualizarEvento": {
-                "type": "object",
-                "properties": {
-                    "imagem": {
-                        "type": "string",
-                        "description": "URL da imagem do evento"
-                    },
-                    "nome": {
-                        "type": "string",
-                        "description": "Novo nome do evento"
-                    },
-                    "data_inicio": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Nova data de início do evento (no formato YYYY-MM-DD)"
-                    },
-                    "data_fim": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Nova data de fim do evento (no formato YYYY-MM-DD)"
-                    },
-                    "descricao": {
-                        "type": "string",
-                        "description": "Nova descrição do evento"
-                    },
-                    "categoria_id": {
-                        "type": "string",
-                        "description": "Novo ID da categoria do evento"
-                    },
-                    "local_id": {
-                        "type": "string",
-                        "description": "Novo ID do local do evento"
-                    },
-                    "usuario_id": {
-                        "type": "string",
-                        "description": "Novo ID do usuário responsável pelo evento"
                     }
                 }
             },
@@ -1489,133 +1697,80 @@
                     "pais": {
                         "type": "string",
                         "description": "País do local"
+                    },
+                    "eventos": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Evento"
+                        }
                     }
                 }
             },
-            "CriarLocal": {
+            "Usuario": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID do usuário"
+                    },
                     "nome": {
                         "type": "string",
-                        "description": "Nome do local"
+                        "description": "Nome do usuário"
                     },
-                    "endereco": {
+                    "email": {
                         "type": "string",
-                        "description": "Endereço do local"
+                        "description": "E-mail do usuário"
                     },
-                    "cidade": {
+                    "telefone": {
                         "type": "string",
-                        "description": "Cidade do local"
+                        "description": "Telefone do usuário"
                     },
-                    "estado": {
+                    "data_criacao": {
                         "type": "string",
-                        "description": "Estado do local"
+                        "format":"date-time",
+                        "description": "DateTime (YYYY-MM-DDTHH:MM:SSZ)"
                     },
-                    "pais": {
+                    "cargo_id": {
                         "type": "string",
-                        "description": "País do local"
+                        "description": "ID do cargo do usuário"
+                    },
+                    "cargo": {
+                        "$ref": "#/components/schemas/Cargo"
+                    },
+                    "eventos": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Evento"
+                        }
+                    },
+                    "senha": {
+                        "type": "string",
+                        "description": "ID do cargo do usuário"
                     }
                 }
             },
-            "AtualizarLocal": {
+            "Cargo": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID do cargo"
+                    },
                     "nome": {
                         "type": "string",
-                        "description": "Novo nome do local"
+                        "description": "Nome do cargo"
                     },
-                    "endereco": {
-                        "type": "string",
-                        "description": "Novo endereço do local"
-                    },
-                    "cidade": {
-                        "type": "string",
-                        "description": "Nova cidade do local"
-                    },
-                    "estado": {
-                        "type": "string",
-                        "description": "Novo estado do local"
-                    },
-                    "pais": {
-                        "type": "string",
-                        "description": "Novo país do local"
+                    "usuarios": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Usuario"
+                        }
                     }
                 }
-            },
-            
-        "Usuario": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "ID do usuário"
-              },
-              "nome": {
-                "type": "string",
-                "description": "Nome do usuário"
-              },
-              "email": {
-                "type": "string",
-                "description": "E-mail do usuário"
-              },
-              "telefone": {
-                "type": "string",
-                "description": "Telefone do usuário"
-              },
-              "cargo_id": {
-                "type": "string",
-                "description": "ID do cargo do usuário"
-              }
             }
-          },
-          "AtualizarUsuario": {
-            "type": "object",
-            "properties": {
-              "nome": {
-                "type": "string",
-                "description": "Novo nome do usuário"
-              },
-              "email": {
-                "type": "string",
-                "description": "Novo e-mail do usuário"
-              },
-              "telefone": {
-                "type": "string",
-                "description": "Novo telefone do usuário"
-              },
-              "senha": {
-                "type": "string",
-                "description": "Nova senha do usuário"
-              },
-              "cargo_id": {
-                "type": "string",
-                "description": "Novo ID do cargo do usuário"
-              }
-            }
-          },
-          
-        "Cargo": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "ID do cargo"
-              },
-              "nome": {
-                "type": "string",
-                "description": "Nome do cargo"
-              }
-            }
-          },
-          "AtualizarCargo": {
-            "type": "object",
-            "properties": {
-              "nome": {
-                "type": "string",
-                "description": "Novo nome do cargo"
-              }
-            }
-          }
         }
     }
 }
