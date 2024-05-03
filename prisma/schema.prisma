@@ -34,7 +34,7 @@ model Locais {
 // Definição do modelo Eventos
 model Eventos {
   id           String     @id @default(uuid())
-  imagem       String     
+  imagem       String   
   nome         String
   data_criacao DateTime   @default(now())
   data_inicio  DateTime
