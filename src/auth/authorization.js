@@ -22,7 +22,7 @@ export default async function (req, res, next) {
 
 		const { id } = await verificarUsuario(role);
 
-		if (id === process.env.VISITANTE) {
+		if (id === process.env.ROLE_VISITANTE) {
 			//Acesso publico
 			return res.status(401).json({ message: 'Acesso não autorizado.' });
 		}
