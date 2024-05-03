@@ -64,10 +64,44 @@ export class Validation {
 
 	// Validação de dado - Categorias
 	validateCategoryData(req, res, next) {
-
 		if(!req.body.nome) 
-			return res.status(400).json({"message": "O campo 'nome' é obrigatório!"})
+			return res.status(400).json({"message": "O campo 'nome' é obrigatório!"});
 
+		return next();
+	};
+
+	// Validação de dados - Locais
+	validateLocalData(req, res, next) {
+		const { nome, endereco, cidade, estado, pais } = req.body;
+
+		const emptyFields = [];
+
+		if (!nome) 
+			emptyFields.push('nome');
+
+		if (!endereco) 
+			emptyFields.push('endereco');
+
+		if (!cidade) 
+			emptyFields.push('cidade');
+
+		if (!estado) 
+			emptyFields.push('estado');
+
+		if (!pais) 
+			emptyFields.push('pais');
+
+		if (emptyFields.length == 0) {
+			return next();
+		} else {
+			if (emptyFields.length > 1) {
+				return res
+					.status(400)
+					.json({ message: `Os campos ${emptyFields.join(', ')} são obrigatórios!` });
+			} else {
+				return res.status(400).json({ message: `O campo ${emptyFields} é obrigatório!` });
+			}
+		}
 	};
 
 	// Validação de dados - Cargos
@@ -76,7 +110,7 @@ export class Validation {
 			return res.status(400).json({ error: "O campo 'nome' é obrigatório!" });
 		}
 
-		next();
+		return next();
 	};
 
 	// Validação - Usuários
@@ -135,7 +169,5 @@ export class Validation {
 				return res.status(400).json({ message: `O campo ${emptyFields} é obrigatório!` });
 			}
 		}
-
-
 	};
 }
