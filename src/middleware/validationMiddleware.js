@@ -12,7 +12,7 @@ export class Validation {
 		if (!id.match(uuidRegex)) return res.status(400).json({ message: "Parâmetro 'id' inválido!" });
 
 		return next();
-	}
+	};
 
 	// Validação de dados - Eventos
 	valitadeEventData(req, res, next) {
@@ -60,7 +60,15 @@ export class Validation {
 				return res.status(400).json({ message: `O campo ${emptyFields} é obrigatório!` });
 			}
 		}
-	}
+	};
+
+	// Validação de dado - Categorias
+	validateCategoryData(req, res, next) {
+
+		if(!req.body.nome) 
+			return res.status(400).json({"message": "O campo 'nome' é obrigatório!"})
+
+	};
 
 	// Validação de dados - Cargos
 	valitadeRoleData(req, res, next) {
@@ -69,7 +77,7 @@ export class Validation {
 		}
 
 		next();
-	}
+	};
 
 	// Validação - Usuários
 	valitadeUserData(req, res, next) {
@@ -102,5 +110,32 @@ export class Validation {
 				return res.status(400).json({ message: `O campo ${emptyFields} é obrigatório!` });
 			}
 		}
-	}
+	};
+
+	// Validação - Login
+	validateLoginData(req, res, next) {
+		const { email, senha } = req.body;
+
+		const emptyFields = [];
+
+		if (!email) 
+			emptyFields.push('email');
+
+		if (!senha) 
+			emptyFields.push('senha');
+
+		if (emptyFields.length == 0) {
+			return next();
+		} else {
+			if (emptyFields.length > 1) {
+				return res
+					.status(400)
+					.json({ message: `Os campos ${emptyFields.join(', ')} são obrigatórios!` });
+			} else {
+				return res.status(400).json({ message: `O campo ${emptyFields} é obrigatório!` });
+			}
+		}
+
+
+	};
 }
