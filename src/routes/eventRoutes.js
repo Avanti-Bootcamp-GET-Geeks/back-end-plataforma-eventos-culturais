@@ -22,6 +22,6 @@ eventRoutes.put(
 	validation.valitadeEventData,
 	eventController.updateEvent,
 );
-eventRoutes.delete('/event/:id', validation.validateIdParameter, eventController.deleteEvent);
+eventRoutes.delete('/event/:id', authorization, validation.validateIdParameter, eventController.deleteEvent);
 
 export { eventRoutes };
