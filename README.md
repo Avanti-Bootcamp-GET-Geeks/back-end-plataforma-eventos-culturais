@@ -5,6 +5,7 @@
 Este projeto consiste em uma aplicação back-end para gerenciamento de eventos culturais. A plataforma permite aos organizadores de eventos criar e listar eventos, e aos participantes explorar, pesquisar e filtrar eventos com base em categorias, locais e datas.
 
 ### 💻 Tecnologias e ferramentas utilizadas
+
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
@@ -13,8 +14,6 @@ Este projeto consiste em uma aplicação back-end para gerenciamento de eventos 
 ![Banco de dados SQL - PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" width="30" />
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/insomnia/insomnia-original.svg" width="30" />
-             
-          
 
 ## 📝 Pré-requesitos para testar a API localmente
 
@@ -26,12 +25,11 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 - [x] **Ter um editor de código de sua preferência - (OPCIONAL)**;
 - [x] **Clonar o repositório por meio do comando abaixo**:
 
-    ```shell 
-    git clone https://github.com/Avanti-Bootcamp-GET-Geeks/back-end-plataforma-eventos-culturais.git
-    ```
+  ```shell
+  git clone https://github.com/Avanti-Bootcamp-GET-Geeks/back-end-plataforma-eventos-culturais.git
+  ```
 
 - [x] **Utilize uma ferramenta que possibilite realizar todos os tipos de requisições como o Postman, Insomnia etc.**
-
 
 ## ⚙️ Configurações necessárias
 
@@ -39,12 +37,33 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 
 - **Para baixar as dependências**: `npm install`;
 - **Crie um arquivo com o nome** `.env` e insira nele o código que está no arquivo `.env.example` e realize os ajustes necessários.
-    1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
-    1. **SECRET_JWT**: modifique a chave fornecida por outra de sua preferência.
-    1. **ROLE_VISITANTE**: O sistema terá 3 tipos de usuários/cargos - 1. `admin`, 2. `organizador`, 3. `visitante`. **Após cadastro do visitante**, insira o `id` deste cargo na variável em questão.
+
+  1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
+  1. **SECRET_JWT**: modifique a chave fornecida por outra de sua preferência.
+  1. **ROLE_VISITANTE**: O sistema terá 3 tipos de usuários/cargos - 1. `admin`, 2. `organizador`, 3. `visitante`. **Após cadastro do visitante**, insira o `id` deste cargo na variável em questão.
 
 - **Esquemas do banco de dados**: execute o comando `npx prisma migrate dev` após a criação do banco e a configuração do mesmo no arquivo **.env**;
 - **Execute o programa utilizando o comando** `npm start`
+
+## Configuração inicial
+
+Para permitir o primeiro acesso ao sistema, siga os passos abaixo:
+
+1. No arquivo de rotas (`routes/roleRoutes.js`), remova a autorização da rota POST de cargos para inserir o cargo de administrador:
+
+   Antes:
+
+   ```
+   roleRoutes.post('/role', authorization, validation.validateRoleData, roleController.createRole);
+   ```
+
+   Depois:
+
+   ```
+   roleRoutes.post('/role', validation.validateRoleData, roleController.createRole);
+   ```
+
+Certifique-se de retornar à configuração original após a conclusão do primeiro acesso.
 
 ## 🌐 Métodos aceitos
 
@@ -55,7 +74,7 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 
 ## 🎲 Estruturas de dados
 
-As estruturas de dados necessárias para o funcionamento do sistema foram definidas por meio do ORM Prisma para o  banco de dados PostgreSQL. Abaixo está um resumo das entidades:
+As estruturas de dados necessárias para o funcionamento do sistema foram definidas por meio do ORM Prisma para o banco de dados PostgreSQL. Abaixo está um resumo das entidades:
 
 - **Categorias**: Representa as categorias dos eventos.
 - **Locais**: Descreve os locais onde os eventos ocorrerão.
@@ -63,13 +82,10 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 - **Cargos**: Define os cargos dos usuários.
 - **Usuários**: Armazena dados dos usuários, incluindo nome, email, telefone, senha e cargo.
 
-
 <div style="text-align: center;">
     <h4>ER Diagrama </h4>
     <img src="./screenshots/estrutura-dados-db.png" alt="Estrutura de dados - bd" title="Estrutura de dados - BD" />
 </div>
-
-
 
 ## 🔗 Endpoints
 
@@ -98,7 +114,6 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 - **PUT `/local/:id`**: Atualiza um local existente pelo ID.
 - **DELETE `/local/:id`**: Exclui um local pelo ID.
 
-
 ### Cargos
 
 - **GET `/roles`**: Retorna todos os cargos de usuário.
@@ -115,19 +130,21 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 - **PUT `/user/:id`**: Atualiza um usuário existente pelo ID.
 - **DELETE `/user/:id`**: Exclui um usuário pelo ID.
 
-
 ### Autenticação
 
 - **POST `/login`**: Realiza o login de um usuário.
 
 ⚠️ Atenção:
+
 1. Usuários com `cargo visitante` não podem realizar requisições aos métodos **POST**, **PUT** e **DELETE**, havendo uma exceção apenas nas rotas de `user`.
 2. A autenticação é `obrigatória` para todos os tipos de usuários, sendo dispensável apenas para `leitura de dados`.
-
-
 
 ## 📖 Documentação Swagger
 
 Após inicializar a aplicação (`npm start`), você pode utilizar a documentação **Swagger** para realizar testes por meio dos `endpoints` disponíveis, além de consultar todos os `schemas`. Para tanto, acesse o endpoint a seguir: `http://localhost:3000/api-docs`.
 
-![Documentação Swagger](./screenshots/doc-swagger.jpg "Documentação Swagger")
+![Documentação Swagger](./screenshots/doc-swagger.jpg 'Documentação Swagger')
+
+```
+
+```
