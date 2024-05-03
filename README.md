@@ -4,35 +4,58 @@
 
 Este projeto consiste em uma aplicação back-end para gerenciamento de eventos culturais. A plataforma permite aos organizadores de eventos criar e listar eventos, e aos participantes explorar, pesquisar e filtrar eventos com base em categorias, locais e datas.
 
-## Configurações necessárias
+### 💻 Tecnologias e ferramentas utilizadas
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![ORM Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![Banco de dados SQL - PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" width="30" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/insomnia/insomnia-original.svg" width="30" />
+             
+          
+
+## 📝 Pré-requesitos para testar a API localmente
 
 Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 
-- **Ter o git instalado na máquina;**
-- **Ter o Node instalado;**
-- **Ter um banco de dados relacional instalado (De preferência o PostgreSQL)**
-- **Ter um editor de código de sua preferência;**
-- **Clonar o repositório por meio do comando abaixo;**
-  `git clone https://github.com/Avanti-Bootcamp-GET-Geeks/back-end-plataforma-eventos-culturais.git`
-- **Utilize uma ferramenta que possibilite realizar todos os tipos de requisições como o Postman, Insomnia.**
+- [x] **Ter o git instalado na máquina;**
+- [x] **Ter o Node instalado;**
+- [x] **Ter um banco de dados relacional instalado (De preferência o PostgreSQL)**;
+- [x] **Ter um editor de código de sua preferência - (OPCIONAL)**;
+- [x] **Clonar o repositório por meio do comando abaixo**:
 
-## ⚠️ Após clonar o repositório, execute os comandos abaixo:
+    ```shell 
+    git clone https://github.com/Avanti-Bootcamp-GET-Geeks/back-end-plataforma-eventos-culturais.git
+    ```
+
+- [x] **Utilize uma ferramenta que possibilite realizar todos os tipos de requisições como o Postman, Insomnia etc.**
+
+
+## ⚙️ Configurações necessárias
+
+> Com o repositório clonado, execute os comandos abaixo (no diretório do projeto):
 
 - **Para baixar as dependências**: `npm install`;
-- **Crie um arquivo com o nome** `.env` e insira nele o código que está no arquivo `.env.example`. Além disso, adicione a variável `ROLE_VISITANTE` e insira o ID do cargo em questão;
+- **Crie um arquivo com o nome** `.env` e insira nele o código que está no arquivo `.env.example` e realize os ajustes necessários.
+    1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
+    1. **SECRET_JWT**: modifique a chave fornecida por outra de sua preferência.
+    1. **ROLE_VISITANTE**: O sistema terá 3 tipos de usuários/cargos - 1. `admin`, 2. `organizador`, 3. `visitante`. **Após cadastro do visitante**, insira o `id` deste cargo na variável em questão.
+
 - **Esquemas do banco de dados**: execute o comando `npx prisma migrate dev` após a criação do banco e a configuração do mesmo no arquivo **.env**;
 - **Execute o programa utilizando o comando** `npm start`
 
-## Métodos aceitos
+## 🌐 Métodos aceitos
 
 - **GET**: Para listagem de registro(s).
 - **POST**: Para criação de novo(s) registro(s).
 - **PUT**: Para atualização de registro(s) existente(s).
 - **DELETE**: Para exclusão de registro(s).
 
-## Estruturas de dados
+## 🎲 Estruturas de dados
 
-As estruturas de dados necessárias para o funcionamento do sistema estão definidas no banco de dados PostgreSQL. Abaixo está um resumo das entidades principais:
+As estruturas de dados necessárias para o funcionamento do sistema foram definidas por meio do ORM Prisma para o  banco de dados PostgreSQL. Abaixo está um resumo das entidades:
 
 - **Categorias**: Representa as categorias dos eventos.
 - **Locais**: Descreve os locais onde os eventos ocorrerão.
@@ -40,9 +63,15 @@ As estruturas de dados necessárias para o funcionamento do sistema estão defin
 - **Cargos**: Define os cargos dos usuários.
 - **Usuários**: Armazena dados dos usuários, incluindo nome, email, telefone, senha e cargo.
 
-Consulte a documentação do banco de dados para mais detalhes sobre a estrutura e relacionamentos entre as entidades.
 
-## Endpoints
+<div style="text-align: center;">
+    <h4>ER Diagrama </h4>
+    <img src="./screenshots/estrutura-dados-db.png" alt="Estrutura de dados - bd" title="Estrutura de dados - BD" />
+</div>
+
+
+
+## 🔗 Endpoints
 
 ### Categorias
 
@@ -69,9 +98,6 @@ Consulte a documentação do banco de dados para mais detalhes sobre a estrutura
 - **PUT `/local/:id`**: Atualiza um local existente pelo ID.
 - **DELETE `/local/:id`**: Exclui um local pelo ID.
 
-### Autenticação
-
-- **POST `/login`**: Realiza o login de um usuário.
 
 ### Cargos
 
@@ -89,6 +115,19 @@ Consulte a documentação do banco de dados para mais detalhes sobre a estrutura
 - **PUT `/user/:id`**: Atualiza um usuário existente pelo ID.
 - **DELETE `/user/:id`**: Exclui um usuário pelo ID.
 
-## Documentação Swagger
 
-Você pode utilizar o Swagger para realizar as requisições por meio do endpoint http://localhost:3000/api-docs
+### Autenticação
+
+- **POST `/login`**: Realiza o login de um usuário.
+
+⚠️ Atenção:
+1. Usuários com `cargo visitante` não podem realizar requisições aos métodos **POST**, **PUT** e **DELETE**, havendo uma exceção apenas nas rotas de `user`.
+2. A autenticação é `obrigatória` para todos os tipos de usuários, sendo dispensável apenas para `leitura de dados`.
+
+
+
+## 📖 Documentação Swagger
+
+Após inicializar a aplicação (`npm start`), você pode utilizar a documentação **Swagger** para realizar testes por meio dos `endpoints` disponíveis, além de consultar todos os `schemas`. Para tanto, acesse o endpoint a seguir: `http://localhost:3000/api-docs`.
+
+![Documentação Swagger](./screenshots/doc-swagger.jpg "Documentação Swagger")
