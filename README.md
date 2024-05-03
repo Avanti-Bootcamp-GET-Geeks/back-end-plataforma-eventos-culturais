@@ -23,7 +23,7 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 - [x] **Ter o git instalado na máquina;**
 - [x] **Ter o Node instalado;**
 - [x] **Ter um banco de dados relacional instalado (De preferência o PostgreSQL)**;
-- [x] **Ter um editor de código de sua preferência - (OPCIONAL)**;
+- [x] **Ter um editor de código de sua preferência**;
 - [x] **Clonar o repositório por meio do comando abaixo**:
 
     ```shell 
@@ -42,6 +42,17 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
     1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
     1. **SECRET_JWT**: modifique a chave fornecida por outra de sua preferência.
     1. **ROLE_VISITANTE**: O sistema terá 3 tipos de usuários/cargos - 1. `admin`, 2. `organizador`, 3. `visitante`. **Após cadastro do visitante**, insira o `id` deste cargo na variável em questão.
+
+>[!IMPORTANT]
+> 
+> Para a criação dos cargos acesse o arquivo `roleRoutes.js` e remova o middleware `authorization`;
+>
+> Como está: `roleRoutes.post('/role', authorization, validation.valitadeRoleData, roleController.createRole);`
+>
+> Como deve ficar para criação dos cargos: `roleRoutes.post('/role', validation.valitadeRoleData, roleController.createRole);`
+>
+> **Após criação de TODOS os cargos**, adicione o o middleware `authorization` novamente.
+> 
 
 - **Esquemas do banco de dados**: execute o comando `npx prisma migrate dev` após a criação do banco e a configuração do mesmo no arquivo **.env**;
 - **Execute o programa utilizando o comando** `npm start`
