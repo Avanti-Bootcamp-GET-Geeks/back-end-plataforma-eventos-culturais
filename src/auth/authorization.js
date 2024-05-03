@@ -22,10 +22,11 @@ export default async function (req, res, next) {
 
 		const { id } = await verificarUsuario(role);
 
+		// Verifica se o ID do usuário locado é do cargo 'visitante/público'
 		if (id === process.env.ROLE_VISITANTE) {
-			//Acesso publico
 			return res.status(401).json({ message: 'Acesso não autorizado.' });
 		}
+		
 		//Verificação se foi setado o token
 		if (!role) {
 			return res.status(403).json({ message: 'Acesso negado.' });
