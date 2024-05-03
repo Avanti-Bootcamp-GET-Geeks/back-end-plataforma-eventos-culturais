@@ -16,12 +16,6 @@ export class EventCrontroller {
 				orderBy: { data_inicio: 'asc' },
 			});
 
-			// Verifica se algum filtro foi aplicado e se há retorno
-			const isFilteredSearch =
-				categoria_id !== undefined || local_id !== undefined || data !== undefined;
-
-			if (isFilteredSearch) return res.status(404).json({ message: 'Nenhum evento localizado!' });
-
 			res.status(200).json(events);
 		} catch (error) {
 			console.log(error.message);
