@@ -6,7 +6,6 @@ export class LocalController {
         const locals = await prismaClient.locais.findMany();
         res.status(200).json(locals);
       } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar locais.' });
       }
     }
@@ -18,11 +17,10 @@ export class LocalController {
           where: { id },
         });
         if (!local) {
-          return res.status(404).json({ error: 'Local não encontrado.' });
+          return res.status(404).json({ message: 'Local não encontrado.' });
         }
         res.status(200).json(local);
       } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Erro ao buscar local.' });
       }
     }
@@ -35,7 +33,6 @@ export class LocalController {
         });
         res.status(201).json(local);
       } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Erro ao criar local.' });
       }
     }

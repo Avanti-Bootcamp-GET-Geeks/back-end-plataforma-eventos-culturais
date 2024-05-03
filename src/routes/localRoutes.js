@@ -1,17 +1,16 @@
 import { Router } from "express"
 import { LocalController } from '../controllers/LocalController.js'
+import { Validation } from '../middleware/validationMiddleware.js';
+import authorization from '../auth/authorization.js';
 
-
-const localRoutes = Router()
-const localController = new LocalController()
-
+const localRoutes = Router();
+const localController = new LocalController();
+const validation = new Validation();
 
 localRoutes.get('/locals', localController.findAllLocals);
-localRoutes.get('/local/:id', localController.findLocalById)
-localRoutes.post('/local', localController.createLocal)
-localRoutes.put('/local/:id', localController.updateLocal)
-localRoutes.delete('/local/:id', localController.deleteLocal)
-
-
+localRoutes.get('/local/:id', validation.validateIdParameter, localController.findLocalById)
+localRoutes.post('/local', authorization, validation.validateLocalData, localController.createLocal)
+localRoutes.put('/local/:id', authorization, validation.validateIdParameter, validation.validateLocalData, localController.updateLocal)
+localRoutes.delete('/local/:id', authorization, validation.validateIdParameter, localController.deleteLocal)
 
 export { localRoutes }

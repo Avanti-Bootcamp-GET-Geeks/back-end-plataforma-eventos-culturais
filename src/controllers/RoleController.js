@@ -20,7 +20,7 @@ export class RoleController {
       const role = await findById(id);
 
       if (!role) {
-        return res.status(404).json({ error: 'Cargo não encontrado.' });
+        return res.status(404).json({ message: 'Cargo não encontrado.' });
       };
 
       res.status(200).json(role);
@@ -46,13 +46,13 @@ export class RoleController {
       const roleFound = await findById(id);
 
       if (!roleFound) {
-        return res.status(404).json({ error: 'Cargo não encontrado.' });
+        return res.status(404).json({ message: 'Cargo não encontrado.' });
       };
 
       res.status(200).json(await prismaClient.cargos.update({where: { id }, data: { nome: req.body.nome }}));  
 
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       res.status(500).json({ error: 'Erro ao atualizar cargo.' });
     }
   };
@@ -63,7 +63,7 @@ export class RoleController {
       const roleFound = await findById(id);
 
       if (!roleFound) {
-        return res.status(404).json({ error: 'Cargo não encontrado.' });
+        return res.status(404).json({ message: 'Cargo não encontrado.' });
       };
 
       await prismaClient.cargos.delete({ where: { id } });
