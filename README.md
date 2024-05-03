@@ -2,7 +2,7 @@
 
 ## ℹ️ Sobre
 
-Este projeto consiste em uma aplicação back-end para gerenciamento de eventos culturais. A plataforma permite aos organizadores de eventos criar e listar eventos, e aos participantes explorar, pesquisar e filtrar eventos com base em categorias, locais e datas.
+Este projeto consiste em uma **aplicação back-end (API) para Gerenciamento de Eventos Culturais**. A plataforma permite aos organizadores de eventos criar e listar eventos, e aos participantes explorar, pesquisar e filtrar eventos com base em categorias, locais e datas.
 
 ### 💻 Tecnologias e ferramentas utilizadas
 
@@ -44,37 +44,21 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 
 >[!IMPORTANT]
 > 
-> Para a criação dos cargos acesse o arquivo `roleRoutes.js` e remova o middleware `authorization`;
+> Para a criação dos cargos acesse o arquivo `roleRoutes.js` e remova o middleware `authorization` do `método POST`;
 >
 > Como está: `roleRoutes.post('/role', authorization, validation.valitadeRoleData, roleController.createRole);`
 >
-> Como deve ficar para criação dos cargos: `roleRoutes.post('/role', validation.valitadeRoleData, roleController.createRole);`
+> Como deve ficar: `roleRoutes.post('/role', validation.valitadeRoleData, roleController.createRole);`
 >
 > **Após criação de TODOS os cargos**, adicione o o middleware `authorization` novamente.
+>
+> ⚠️ **Atenção**: A cada alteração na rota faz-se necessária a reinicialização do projeto - `npm start` - para que o mesmo funcione corretamente (certifique-se de salvar o arquivo antes);
+>
 > 
 
 - **Esquemas do banco de dados**: execute o comando `npx prisma migrate dev` após a criação do banco e a configuração do mesmo no arquivo **.env**;
 - **Execute o programa utilizando o comando** `npm start`
 
-## Configuração inicial
-
-Para permitir o primeiro acesso ao sistema, siga os passos abaixo:
-
-1. No arquivo de rotas (`routes/roleRoutes.js`), remova a autorização da rota POST de cargos para inserir o cargo de administrador:
-
-   Antes:
-
-   ```
-   roleRoutes.post('/role', authorization, validation.validateRoleData, roleController.createRole);
-   ```
-
-   Depois:
-
-   ```
-   roleRoutes.post('/role', validation.validateRoleData, roleController.createRole);
-   ```
-
-Certifique-se de retornar à configuração original após a conclusão do primeiro acesso.
 
 ## 🌐 Métodos aceitos
 
@@ -155,7 +139,3 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 Após inicializar a aplicação (`npm start`), você pode utilizar a documentação **Swagger** para realizar testes por meio dos `endpoints` disponíveis, além de consultar todos os `schemas`. Para tanto, acesse o endpoint a seguir: `http://localhost:3000/api-docs`.
 
 ![Documentação Swagger](./screenshots/doc-swagger.jpg 'Documentação Swagger')
-
-```
-
-```
