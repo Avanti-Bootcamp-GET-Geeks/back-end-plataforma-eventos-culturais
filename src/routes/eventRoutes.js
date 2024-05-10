@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { EventCrontroller } from '../controllers/EventController.js';
 import { Validation } from '../middleware/validationMiddleware.js';
 import authorization from '../auth/authorization.js';
+import pagination from '../middleware/paginationMiddleware.js';
 
 const eventRoutes = Router();
 const eventController = new EventCrontroller();
 const validation = new Validation();
 
-eventRoutes.get('/events', eventController.findAllEvents);
+eventRoutes.get('/events', pagination, eventController.findAllEvents);
 eventRoutes.get('/event/:id', validation.validateIdParameter, eventController.findEventById);
 eventRoutes.post(
 	'/event',

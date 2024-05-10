@@ -3,7 +3,9 @@ import { prismaClient } from "../database/PrismaClient.js";
 export class LocalController {
     async findAllLocals(req, res) {
       try {
-        const locals = await prismaClient.locais.findMany();
+        const locals = await prismaClient.locais.findMany({
+          take: req.query.limit, skip: req.query.offset
+        });
         res.status(200).json(locals);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao buscar locais.' });

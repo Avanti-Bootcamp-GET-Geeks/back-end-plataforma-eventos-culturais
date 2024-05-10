@@ -3,7 +3,9 @@ import { prismaClient } from '../database/PrismaClient.js';
 export class CategoryController {
 	async findAllCategories(req, res) {
 		try {
-			const categories = await prismaClient.categorias.findMany();
+			const categories = await prismaClient.categorias.findMany({
+				take: req.query.limit, skip: req.query.offset
+			});
 			res.status(200).json(categories);
 		} catch (error) {
 			res.status(500).json({ error: 'Erro ao buscar categorias.' });
