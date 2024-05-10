@@ -9,6 +9,7 @@ const eventController = new EventCrontroller();
 const validation = new Validation();
 
 eventRoutes.get('/events', pagination, eventController.findAllEvents);
+eventRoutes.get('/events/user/:id', authorization, validation.validateIdParameter, pagination, eventController.findAllEventsByUserId);
 eventRoutes.get('/event/:id', validation.validateIdParameter, eventController.findEventById);
 eventRoutes.post(
 	'/event',
