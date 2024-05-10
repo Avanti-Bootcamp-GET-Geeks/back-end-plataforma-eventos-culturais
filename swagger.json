@@ -9,6 +9,12 @@
     },
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Teste local"
+    }
+  ],
   "paths": {
     "/login": {
       "post": {
@@ -115,7 +121,7 @@
 
     "/users": {
       "get": {
-        "summary": "Buscar todos os usuários",
+        "summary": "Busca todos os usuários",
         "tags": ["Usuários"],
         "parameters": [
           {
@@ -195,7 +201,7 @@
     },
     "/user/{id}": {
       "get": {
-        "summary": "Buscar usuário por ID",
+        "summary": "Busca usuário por ID",
         "tags": ["Usuários"],
         "parameters": [
           {
@@ -294,7 +300,7 @@
         }
       },
       "put": {
-        "summary": "Atualizar usuário",
+        "summary": "Atualiza usuário",
         "tags": ["Usuários"],
         "parameters": [
           {
@@ -437,7 +443,7 @@
         }
       },
       "delete": {
-        "summary": "Excluir usuário",
+        "summary": "Exclui usuário",
         "tags": ["Usuários"],
         "parameters": [
           {
@@ -519,7 +525,7 @@
     },
     "/user": {
       "post": {
-        "summary": "Criar usuário",
+        "summary": "Cria usuário",
         "tags": ["Usuários"],
         "requestBody": {
           "description": "Dados necessários para criar um usuário",
@@ -649,7 +655,7 @@
 
     "/roles": {
       "get": {
-        "summary": "Buscar todos os cargos",
+        "summary": "Busca todos os cargos",
         "tags": ["Cargos"],
         "responses": {
           "200": {
@@ -685,7 +691,7 @@
     },
     "/role/{id}": {
       "get": {
-        "summary": "Buscar cargo por ID",
+        "summary": "Busca cargo por ID",
         "tags": ["Cargos"],
         "parameters": [
           {
@@ -762,7 +768,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Atualizar cargo",
+        "summary": "Atualiza cargo",
         "tags": ["Cargos"],
         "parameters": [
           {
@@ -871,7 +877,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Excluir cargo",
+        "summary": "Exclui cargo",
         "tags": ["Cargos"],
         "parameters": [
           {
@@ -958,7 +964,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Criar cargo",
+        "summary": "Cria cargo",
         "tags": ["Cargos"],
         "requestBody": {
           "description": "Dados necessários para criar um cargo",
@@ -1037,7 +1043,7 @@
 
     "/categories": {
       "get": {
-        "summary": "Buscar todas as categorias",
+        "summary": "Busca todas as categorias",
         "tags": ["Categorias"],
         "parameters": [
           {
@@ -1091,7 +1097,7 @@
     },
     "/category/{id}": {
       "get": {
-        "summary": "Buscar categoria por ID",
+        "summary": "Busca categoria por ID",
         "tags": ["Categorias"],
         "parameters": [
           {
@@ -1167,7 +1173,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Atualizar categoria",
+        "summary": "Atualiza categoria",
         "tags": ["Categorias"],
         "parameters": [
           {
@@ -1274,7 +1280,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Excluir categoria",
+        "summary": "Exclui categoria",
         "tags": ["Categorias"],
         "parameters": [
           {
@@ -1345,7 +1351,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Criar categoria",
+        "summary": "Cria categoria",
         "tags": ["Categorias"],
         "requestBody": {
           "description": "Dados necessários para cadastro de uma categoria",
@@ -1424,7 +1430,7 @@
 
     "/events": {
       "get": {
-        "summary": "Buscar todos os eventos",
+        "summary": "Busca todos os eventos",
         "tags": ["Eventos"],
         "parameters": [
           {
@@ -1516,9 +1522,93 @@
         }
       }
     },
+    "/events/user/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Busca todos os eventos com base no id do usuário",
+        "tags": ["Eventos"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Total de registros a serem retornados por consulta"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Início da leitura dos registros"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evento"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/event/{id}": {
       "get": {
-        "summary": "Buscar evento por ID",
+        "summary": "Busca evento por ID",
         "tags": ["Eventos"],
         "parameters": [
           {
@@ -1539,28 +1629,28 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id":{
-                        "type":"string"
+                    "id": {
+                      "type": "string"
                     },
-                    "nome":{
-                        "type":"string"
+                    "nome": {
+                      "type": "string"
                     },
-                    "data":{
-                        "type":"string",
-                        "format":"date-time"
+                    "data": {
+                      "type": "string",
+                      "format": "date-time"
                     },
-                    "descricao":{
-                        "type":"string"
+                    "descricao": {
+                      "type": "string"
                     },
-                    "categoria":{
-                       "$ref":"#/components/schemas/Categoria"
+                    "categoria": {
+                      "$ref": "#/components/schemas/Categoria"
                     },
-                    "local":{
-                       "$ref":"#/components/schemas/Local"
+                    "local": {
+                      "$ref": "#/components/schemas/Local"
                     },
-                    "data_criacao":{
-                        "type":"string",
-                        "format":"date-time"
+                    "data_criacao": {
+                      "type": "string",
+                      "format": "date-time"
                     }
                   }
                 }
@@ -1620,7 +1710,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Atualizar evento",
+        "summary": "Atualiza evento",
         "tags": ["Eventos"],
         "parameters": [
           {
@@ -1686,36 +1776,36 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "type": "object",
-                    "properties": {
-                      "imagem": {
-                        "type": "string"
-                      },
-                      "nome": {
-                        "type": "string"
-                      },
-                      "data_inicio": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "data_fim": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "descricao": {
-                        "type": "string"
-                      },
-                      "categoria_id": {
-                        "type": "string"
-                      },
-                      "local_id": {
-                        "type": "string"
-                      },
-                      "usuario_id": {
-                        "type": "string"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "imagem": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "data_inicio": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data_fim": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "categoria_id": {
+                      "type": "string"
+                    },
+                    "local_id": {
+                      "type": "string"
+                    },
+                    "usuario_id": {
+                      "type": "string"
                     }
                   }
+                }
               }
             }
           },
@@ -1787,7 +1877,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Excluir evento",
+        "summary": "Exclui evento",
         "tags": ["Eventos"],
         "parameters": [
           {
@@ -1874,7 +1964,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Criar evento",
+        "summary": "Cria evento",
         "tags": ["Eventos"],
         "requestBody": {
           "description": "Dados necessários para criar um evento",
@@ -1929,36 +2019,36 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "type": "object",
-                    "properties": {
-                      "imagem": {
-                        "type": "string"
-                      },
-                      "nome": {
-                        "type": "string"
-                      },
-                      "data_inicio": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "data_fim": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "descricao": {
-                        "type": "string"
-                      },
-                      "categoria_id": {
-                        "type": "string"
-                      },
-                      "local_id": {
-                        "type": "string"
-                      },
-                      "usuario_id": {
-                        "type": "string"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "imagem": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "data_inicio": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "data_fim": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "categoria_id": {
+                      "type": "string"
+                    },
+                    "local_id": {
+                      "type": "string"
+                    },
+                    "usuario_id": {
+                      "type": "string"
                     }
                   }
+                }
               }
             }
           },
@@ -2012,7 +2102,7 @@
     },
     "/locals": {
       "get": {
-        "summary": "Buscar todos os locais",
+        "summary": "Busca todos os locais",
         "tags": ["Locais"],
         "parameters": [
           {
@@ -2066,7 +2156,7 @@
     },
     "/local/{id}": {
       "get": {
-        "summary": "Buscar local por ID",
+        "summary": "Busca local por ID",
         "tags": ["Locais"],
         "parameters": [
           {
@@ -2143,7 +2233,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Atualizar local",
+        "summary": "Atualiza local",
         "tags": ["Locais"],
         "parameters": [
           {
@@ -2268,7 +2358,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Excluir local",
+        "summary": "Exclui local",
         "tags": ["Locais"],
         "parameters": [
           {
@@ -2355,7 +2445,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Criar local",
+        "summary": "Cria local",
         "tags": ["Locais"],
         "requestBody": {
           "description": "Dados necessários para criar um local",

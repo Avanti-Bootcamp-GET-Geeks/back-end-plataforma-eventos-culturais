@@ -24,6 +24,21 @@ export class EventCrontroller {
 		}
 	}
 
+
+	async findAllEventsByUserId(req, res) {
+		try {
+			res.status(200).json(await prismaClient.eventos.findMany({
+				take: req.query.limit, skip: req.query.offset,
+				where: { usuario_id: req.params.id },
+				orderBy: { data_inicio: 'asc' },
+			}));
+		} catch (error) {
+			console.log(error.message)
+			return res.status(500).json({ error: 'Erro ao listar eventos por usuário' });
+		}
+	}
+
+
 	async findEventById(req, res) {
 		const { id } = req.params;
 
