@@ -96,6 +96,7 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 ### Eventos
 
 - **GET `/events`**: Retorna todos os eventos.
+- **GET `/events/user/:id`**: Retorna todos os eventos com base no usuário que o criou.
 - **GET `/event/:id`**: Retorna um evento específico pelo ID.
 - **POST `/event`**: Cria um novo evento.
 - **PUT `/event/:id`**: Atualiza um evento existente pelo ID.
