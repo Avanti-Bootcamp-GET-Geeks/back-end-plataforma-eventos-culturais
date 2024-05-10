@@ -4,10 +4,11 @@ const findEventById = async (id) => await prismaClient.eventos.findUnique({ wher
 
 export class EventCrontroller {
 	async findAllEvents(req, res) {
-		const { categoria_id, local_id, data } = req.query;
+		const { categoria_id, local_id, data, limit, offset } = req.query;
 
 		try {
 			let events = await prismaClient.eventos.findMany({
+				take: limit, skip: offset,
 				where: {
 					...(categoria_id && { categoria_id }),
 					...(local_id && { local_id }),

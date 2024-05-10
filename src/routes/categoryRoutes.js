@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { CategoryController } from '../controllers/CategoryController.js';
 import { Validation } from '../middleware/validationMiddleware.js';
 import authorization from '../auth/authorization.js';
+import pagination from '../middleware/paginationMiddleware.js';
 
 const categoryRoutes = Router();
 const categoryController = new CategoryController();
 const validation = new Validation();
 
-categoryRoutes.get('/categories', categoryController.findAllCategories);
+categoryRoutes.get('/categories', pagination, categoryController.findAllCategories);
 categoryRoutes.post('/category', authorization, validation.validateCategoryData, categoryController.createCategory);
 
 categoryRoutes.get('/category/:id', validation.validateIdParameter, categoryController.findCategoryById);

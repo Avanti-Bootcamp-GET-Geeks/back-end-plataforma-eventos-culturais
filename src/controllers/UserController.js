@@ -11,6 +11,7 @@ export class UserController {
 		try {
 			let users = roleId
 				? await prismaClient.usuarios.findMany({
+						take: req.query.limit, skip: req.query.offset,
 						where: {
 							cargo_id: roleId,
 						},
@@ -23,6 +24,7 @@ export class UserController {
 						},
 				  })
 				: await prismaClient.usuarios.findMany({
+						take: req.query.limit, skip: req.query.offset,
 						select: {
 							id: true,
 							nome: true,
