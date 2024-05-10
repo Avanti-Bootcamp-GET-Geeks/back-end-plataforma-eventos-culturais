@@ -9,7 +9,7 @@ const validation = new Validation();
 
 userRoutes.get('/users', userController.findAllUsers);
 userRoutes.get('/user/:id', validation.validateIdParameter, userController.findUserById);
-userRoutes.post('/user', authorization, validation.valitadeUserData, userController.createUser);
+userRoutes.post('/user', validation.valitadeUserData, userController.createUser);
 userRoutes.put(
 	'/user/:id',
 	authorization,
