@@ -125,6 +125,22 @@
               "type": "string"
             },
             "description": "ID do cargo do usuário"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Total de registros a serem retornados por consulta"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Início da leitura dos registros"
           }
         ],
         "responses": {
@@ -1023,6 +1039,24 @@
       "get": {
         "summary": "Buscar todas as categorias",
         "tags": ["Categorias"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Total de registros a serem retornados por consulta"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Início da leitura dos registros"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1417,6 +1451,22 @@
               "format": "date-time"
             },
             "description": "DateTime (YYYY-MM-DDTHH:MM:SSZ)"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Total de registros a serem retornados por consulta"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Início da leitura dos registros"
           }
         ],
         "responses": {
@@ -1964,6 +2014,24 @@
       "get": {
         "summary": "Buscar todos os locais",
         "tags": ["Locais"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Total de registros a serem retornados por consulta"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Início da leitura dos registros"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
