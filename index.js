@@ -3,6 +3,8 @@ import express from 'express';
 //imports para documentação 
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs  from "./swagger.json" assert { type: "json" }
+import cors from 'cors'
+
 
 // Arquivos de rotas
 import { eventRoutes } from './src/routes/eventRoutes.js';
@@ -14,6 +16,20 @@ import { loginRoutes } from './src/routes/loginRoutes.js';
 
 const app = express(); // Define que a aplicação usará o express
 app.use(express.json()); // Seta middleware no express para reconhecimento/análise de JSON nas requisições HTTP
+
+// Habilita o cors e seta uma lista de 'origens'
+app.use(cors(
+    {
+        // Endereços que poderão acessar a API
+        origin: [
+            "localhost:3001",
+            "localhost:3002",
+			"http://localhost:5173"
+        ],
+        // Requisições permitidas
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    }
+));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))//Seta middleware para o acesso a documentação e o arquivo que contem a mesma
 
