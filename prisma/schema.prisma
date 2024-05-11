@@ -34,7 +34,7 @@ model Locais {
 // Definição do modelo Eventos
 model Eventos {
   id           String     @id @default(uuid())
-  imagem       String   
+  imagem       String
   nome         String
   data_criacao DateTime   @default(now())
   data_inicio  DateTime
@@ -53,7 +53,7 @@ model Eventos {
 // Definição do modelo Cargos dos usuários
 model Cargos {
   id      String     @id @default(uuid())
-  nome    String
+  nome    String     @unique
   usuario Usuarios[]
 
   @@map("cargos")

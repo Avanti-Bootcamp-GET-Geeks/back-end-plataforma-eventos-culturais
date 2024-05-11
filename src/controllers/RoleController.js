@@ -2,6 +2,9 @@ import { prismaClient } from "../database/PrismaClient.js";
 
 const findById = async (id) => await prismaClient.cargos.findUnique({ where: { id } });
 
+const findRoleByNome = async (nome) =>
+	await prismaClient.cargos.findFirst({ where: { nome: nome } });
+
 export class RoleController {
   async findAllRoles(req, res) {
     try {
@@ -32,7 +35,13 @@ export class RoleController {
 
   async createRole(req, res) {
     try {
-      res.status(201).json(await prismaClient.cargos.create({data: { nome: req.body.nome }}));
+      const { nome } = req.body
+
+      const roleFound = await findRoleByNome(nome.toLowerCase());
+
+			if (roleFound) return res.status(409).json({ message: 'Cargo já cadastrado!' });
+
+      res.status(201).json(await prismaClient.cargos.create({data: { nome: nome.toLowerCase() }}));
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ error: 'Erro ao criar cargo.' });
