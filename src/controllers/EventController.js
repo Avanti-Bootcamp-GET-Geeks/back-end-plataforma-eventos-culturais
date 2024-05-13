@@ -59,6 +59,7 @@ export class EventCrontroller {
 				// Formata a exibição do evento
 				const formattedEvent = {
 					id: event.id,
+					imagem: event.imagem,
 					nome: event.nome,
 					data: event.data,
 					descricao: event.descricao,
