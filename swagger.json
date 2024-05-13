@@ -1679,6 +1679,10 @@
                     "id": {
                       "type": "string"
                     },
+                    "imagem": {
+                      "type": "string",
+                      "description": "URL da imagem do evento"
+                    },
                     "nome": {
                       "type": "string"
                     },
