@@ -14,6 +14,9 @@ export class EventCrontroller {
 					...(local_id && { local_id }),
 					...(data && { data_inicio: data }),
 				},
+				include: {
+					local: true
+				},
 				orderBy: { data_inicio: 'asc' },
 			});
 
