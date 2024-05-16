@@ -1686,18 +1686,25 @@
                     "nome": {
                       "type": "string"
                     },
-                    "data": {
+                    "descricao": {
+                      "type": "string"
+                    },
+                    "data_inicio": {
                       "type": "string",
                       "format": "date-time"
                     },
-                    "descricao": {
-                      "type": "string"
+                    "data_fim": {
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "categoria": {
                       "$ref": "#/components/schemas/Categoria"
                     },
                     "local": {
                       "$ref": "#/components/schemas/Local"
+                    },
+                    "usuario_id": {
+                      "type": "string"
                     },
                     "data_criacao": {
                       "type": "string",

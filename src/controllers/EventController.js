@@ -44,7 +44,6 @@ export class EventCrontroller {
 
 	async findEventById(req, res) {
 		const { id } = req.params;
-
 		try {
 			const event = await prismaClient.eventos.findUnique({
 				where: { id },
@@ -61,13 +60,14 @@ export class EventCrontroller {
 					id: event.id,
 					imagem: event.imagem,
 					nome: event.nome,
-					data: event.data,
 					descricao: event.descricao,
+					data_inico: event.data_inicio,
+					data_fim: event.data_fim,
 					categoria: event.categoria,
 					local: event.local,
+					usuario_id: event.usuario_id,
 					data_criacao: event.data_criacao,
 				};
-
 				return res.status(200).json(formattedEvent);
 			}
 
