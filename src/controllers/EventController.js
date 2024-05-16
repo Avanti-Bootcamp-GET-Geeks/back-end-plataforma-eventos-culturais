@@ -61,7 +61,7 @@ export class EventCrontroller {
 					imagem: event.imagem,
 					nome: event.nome,
 					descricao: event.descricao,
-					data_inico: event.data_inicio,
+					data_inicio: event.data_inicio,
 					data_fim: event.data_fim,
 					categoria: event.categoria,
 					local: event.local,
