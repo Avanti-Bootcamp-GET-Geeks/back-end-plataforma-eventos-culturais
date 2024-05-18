@@ -1613,7 +1613,57 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Evento"
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID do evento"
+                      },
+                      "imagem": {
+                        "type": "string",
+                        "description": "URL da imagem do evento"
+                      },
+                      "nome": {
+                        "type": "string",
+                        "description": "Nome do evento"
+                      },
+                      "data_inicio": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de início do evento (no formato YYYY-MM-DDTHH:MM:SSZ)"
+                      },
+                      "data_fim": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data de fim do evento (no formato YYYY-MM-DDTHH:MM:SSZ)"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "description": "Descrição do evento"
+                      },
+                      "categoria_id": {
+                        "type": "string",
+                        "description": "ID da categoria do evento"
+                      },
+                      "local_id": {
+                        "type": "string",
+                        "description": "ID do local do evento"
+                      },
+                      "usuario_id": {
+                        "type": "string",
+                        "description": "ID do usuário responsável pelo evento"
+                      },
+                      "data_criacao": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data e hora de criação do evento (no formato YYYY-MM-DDTHH:MM:SSZ)"
+                      },
+                      "local": {
+                        "$ref": "#/components/schemas/Local"
+                      },
+                      "categoria":{
+                        "$ref": "#/components/schemas/Categoria"
+                      }
+                    }
                   }
                 }
               }
