@@ -33,6 +33,10 @@ export class EventCrontroller {
 			res.status(200).json(await prismaClient.eventos.findMany({
 				take: req.query.limit, skip: req.query.offset,
 				where: { usuario_id: req.params.id },
+				include: {
+					categoria: true,
+					local: true
+				},
 				orderBy: { data_inicio: 'asc' },
 			}));
 		} catch (error) {
