@@ -66,6 +66,7 @@ model Usuarios {
   email        String    @unique
   telefone     String
   senha        String
+  isAdmin      Boolean   @default(false)
   data_criacao DateTime  @default(now())
   cargo_id     String
   cargo        Cargos    @relation(fields: [cargo_id], references: [id])

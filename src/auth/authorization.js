@@ -1,39 +1,27 @@
-import { prismaClient } from '../database/PrismaClient.js';
 import jwt from 'jsonwebtoken';
 
-const verificarUsuario = async (id) =>
-	await prismaClient.cargos.findUnique({
-		where: {
-			id,
-		},
-	});
-
 export default async function (req, res, next) {
-	const { authorization } = req.headers;
+	const { authorization } = req.headers; // Extrai o cabeçalho de autorização da requisição.
 
-	if (!authorization) {
-		return res.status(401).json({ message: 'Acesso não autorizado.' });
+	if (!authorization) { // Verifica se o cabeçalho de autorização está ausente.
+		return res.status(401).json({ message: 'Acesso não autorizado. Cabeçalho de autorização ausente.'});
 	}
 
-	const token = authorization.replace('Bearer', '').trim();
+	// Remove o prefixo 'Bearer' e quaisquer espaços em branco do token.
+	const token = authorization.replace('Bearer ', '').trim(); 
 
 	try {
-		const { role } = jwt.verify(token, process.env.SECRET_JWT);
-
-		const { id } = await verificarUsuario(role);
-
-		// Verifica se o ID do usuário locado é do cargo 'visitante/público'
-		if (id === process.env.ROLE_VISITANTE) {
-			return res.status(401).json({ message: 'Acesso não autorizado.' });
-		}
-		
-		//Verificação se foi setado o token
-		if (!role) {
-			return res.status(403).json({ message: 'Acesso negado.' });
+		 // Tenta extrair a propriedade em questão do token JWT decodificado
+		const {role} = jwt.verify(token, process.env.SECRET_JWT);
+	
+		if(!role) {
+			return res.status(403).json({ message: 'Acesso não autorizado.' });
 		}
 
+		// Se todas as verificações passarem, chama o próximo middleware.
 		return next();
 	} catch (error) {
-		res.status(500).json({ message: 'Erro ao autenticar.' });
+		console.log(error.message)
+		res.status(500).json({ error: 'Erro ao autenticar.' });
 	}
-}
+};

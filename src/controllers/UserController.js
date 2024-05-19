@@ -21,6 +21,7 @@ export class UserController {
 							email: true,
 							telefone: true,
 							cargo_id: true,
+							isAdmin: true
 						},
 				  })
 				: await prismaClient.usuarios.findMany({
@@ -31,6 +32,7 @@ export class UserController {
 							email: true,
 							telefone: true,
 							cargo_id: true,
+							isAdmin: true
 						},
 				  });
 
@@ -61,6 +63,7 @@ export class UserController {
 					email: user.email,
 					telefone: user.telefone,
 					cargo: user.cargo,
+					isAdmin: user.isAdmin,
 					eventos: user.evento,
 					data_criacao: user.data_criacao,
 				};
@@ -76,7 +79,7 @@ export class UserController {
 	}
 
 	async createUser(req, res) {
-		const { nome, email, telefone, senha, cargo_id } = req.body;
+		const { nome, email, telefone, senha, cargo_id, isAdmin } = req.body;
 
 		try {
 			const userFound = await findUserByEmail(email);
@@ -87,13 +90,14 @@ export class UserController {
 			const hashPass = bcrypt.hashSync(senha, 10);
 
 			const user = await prismaClient.usuarios.create({
-				data: { nome, email, telefone, senha: hashPass, cargo_id },
+				data: { nome, email, telefone, senha: hashPass, cargo_id, isAdmin },
 				select: {
 					id: true,
 					nome: true,
 					email: true,
 					telefone: true,
 					cargo_id: true,
+					isAdmin: true
 				},
 			});
 
@@ -106,7 +110,7 @@ export class UserController {
 
 	async updateUser(req, res) {
 		const { id } = req.params;
-		const { nome, email, telefone, senha, cargo_id } = req.body;
+		const { nome, email, telefone, senha, cargo_id, isAdmin } = req.body;
 
 		try {
 			const userFound = await findUserByEmail(email);
@@ -119,13 +123,14 @@ export class UserController {
 					where: {
 						id,
 					},
-					data: { nome, email, telefone, senha: hashPass, cargo_id },
+					data: { nome, email, telefone, senha: hashPass, cargo_id, isAdmin },
 					select: {
 						id: true,
 						nome: true,
 						email: true,
 						telefone: true,
 						cargo_id: true,
+						isAdmin: true
 					},
 				});
 
@@ -143,6 +148,12 @@ export class UserController {
 		const { id } = req.params;
 
 		try {
+			const eventsFound = await prismaClient.eventos.findMany({ where: {usuario_id: id} });
+			// Verifica se o usuário tem eventos cadastrados
+			if(eventsFound.length > 0) 
+				return res.status(400).json({ message: 'Usuário não pode ser excluído, pois tem eventos cadastrados.' });
+			
+			
 			const userFound = await prismaClient.usuarios.findUnique({ where: { id } });
 
 			if (userFound !== null) {

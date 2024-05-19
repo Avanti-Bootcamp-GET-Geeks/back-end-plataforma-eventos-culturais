@@ -11,6 +11,9 @@ export class LoginController {
 				where: {
 					email,
 				},
+				include: {
+					cargo: true
+				}
 			});
 
 			if (!user) {
@@ -27,7 +30,8 @@ export class LoginController {
 				{
 					userId: user.id,
 					name: user.nome,
-					role: user.cargo_id,
+					role: user.cargo,
+					isAdmin: user.isAdmin
 				},
 				process.env.SECRET_JWT,
 				{ expiresIn: '4h' },
@@ -35,7 +39,10 @@ export class LoginController {
 
 			return res
 				.status(200)
-				.json({ id: user.id, name: user.nome, role: user.cargo_id, token: token });
-		} catch (error) {}
+				.json({ id: user.id, name: user.nome, role: user.cargo, isAdmin: user.isAdmin, token: token });
+		} catch (error) {
+			console.log(error.message)
+			return res.status(500).json({error: 'Erro ao realizar login.'});
+		}
 	}
 }

@@ -36,24 +36,16 @@ Antes de utilizar o projeto, certifique-se de seguir as seguintes etapas:
 > Com o repositório clonado, execute os comandos abaixo (no diretório do projeto):
 
 - **Para baixar as dependências**: `npm install`;
-- **Crie um arquivo com o nome** `.env` e insira nele o código que está no arquivo `.env.example` e realize os ajustes necessários.
+- **Crie um arquivo com o nome** `.env`, insira nele o código que está no arquivo `.env.example` e realize os ajustes necessários.
 
-  1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
+  1. **DATABASE_URL**: insira sua senha em '`senhaDoBanco`' e o nome do banco de dados '`nomeDoBanco`' para o projeto em questão.
   1. **SECRET_JWT**: modifique a chave fornecida por outra de sua preferência.
-  1. **ROLE_VISITANTE**: O sistema terá 3 tipos de usuários/cargos - 1. `admin`, 2. `organizador`, 3. `visitante`. **Após cadastro do visitante**, insira o `id` deste cargo na variável em questão.
+  
 
 >[!IMPORTANT]
 > 
-> Para a criação dos cargos acesse o arquivo `roleRoutes.js` e remova o middleware `authorization` do `método POST`;
->
-> Como está: `roleRoutes.post('/role', authorization, validation.valitadeRoleData, roleController.createRole);`
->
-> Como deve ficar: `roleRoutes.post('/role', validation.valitadeRoleData, roleController.createRole);`
->
-> **Após criação de TODOS os cargos**, adicione o o middleware `authorization` novamente.
->
-> ⚠️ **Atenção**: A cada alteração na rota faz-se necessária a reinicialização do projeto - `npm start` - para que o mesmo funcione corretamente (certifique-se de salvar o arquivo antes);
->
+> Para a criação dos cargos é necessário cadastrar um usuário como admin e realizar o login.
+> - O sistema foi pensado para ter 3 cargos: 1. `admin`, 2. `organizador`, 3. `visitante` ou `público`. 
 > 
 
 - **Esquemas do banco de dados**: execute o comando `npx prisma migrate dev` após a criação do banco e a configuração do mesmo no arquivo **.env**;
@@ -73,9 +65,9 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 
 - **Categorias**: Representa as categorias dos eventos.
 - **Locais**: Descreve os locais onde os eventos ocorrerão.
-- **Eventos**: Contém informações sobre os eventos, incluindo nome, descrição, datas e relacionamentos com categorias e locais.
+- **Eventos**: Contém informações sobre os eventos, incluindo `nome, descrição, datas e relacionamentos com categorias e locais`.
 - **Cargos**: Define os cargos dos usuários.
-- **Usuários**: Armazena dados dos usuários, incluindo nome, email, telefone, senha e cargo.
+- **Usuários**: Armazena dados dos usuários, incluindo `nome, email, telefone, senha, cargo e isAdmin`.
 
 <div style="text-align: center;">
     <h4>ER Diagrama </h4>
