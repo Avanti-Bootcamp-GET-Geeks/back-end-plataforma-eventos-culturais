@@ -1449,8 +1449,17 @@
     "/events": {
       "get": {
         "summary": "Busca todos os eventos",
+        "description": "Rota responsável por listar eventos com base na data atual. Para listar eventos específicos já encerrados é possível buscá-los pelo campo nome.",
         "tags": ["Eventos"],
         "parameters": [
+          {
+            "in": "query",
+            "name": "nome",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Nome do evento"
+          },
           {
             "in": "query",
             "name": "categoria_id",
@@ -1605,6 +1614,22 @@
               "type": "string"
             },
             "description": "ID do usuário"
+          },
+          {
+            "in": "query",
+            "name": "nome",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Nome do evento"
+          },
+          {
+            "in": "query",
+            "name": "encerrados",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Eventos encerrados - inserir true para exibi-los na lista"
           },
           {
             "in": "query",

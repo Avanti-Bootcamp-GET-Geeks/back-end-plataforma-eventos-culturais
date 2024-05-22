@@ -75,6 +75,7 @@ As estruturas de dados necessárias para o funcionamento do sistema foram defini
 </div>
 
 ## 🔗 Endpoints
+> Os **métodos POST, PUT e DELETE** das rotas de `cargos` e `categorias` são `restritas aos administrados`.
 
 ### Categorias
 
